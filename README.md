@@ -7,7 +7,8 @@ a Minecraft: Bedrock Edition multiplayer software writen in GoLang.
 ### Contributing
  SpecterGO is currently under developement and every contribution is accepted 
  as long as it's clear, clean and is original.
- 
+### Installation
+ just run in your terminal ./compile.sh (make you sure it has perm if not do "chmod +x compile.sh") then go to the folder main and start the program ./main.
  ### License
  SpecterGO is under the [GNU General Public License v3.0](https://github.com/SpecterTeam/SpecterGO/blob/master/LICENSE).
  
