@@ -17,12 +17,15 @@
 
 package SpecterGO
 
+import "github.com/SpecterTeam/SpecterGO/utils"
+
 type Server struct {
 	running bool
 }
 
 func NewServer() Server {
 	s := Server{}
-
+	utils.NewConfig(utils.GetServerPath() + "server.yml", utils.TypeYaml)
+	
 	return s
 }

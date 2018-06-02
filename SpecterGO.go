@@ -19,8 +19,6 @@ package SpecterGO
 
 import (
 	"github.com/SpecterTeam/SpecterGO/utils"
-	"io/ioutil"
-	"gopkg.in/yaml.v2"
 )
 
 const (
@@ -46,20 +44,6 @@ func GetServer() Server {
 }
 
 func Start() {
-	InitConfig()
 	s := NewServer()
 	SetServer(s)
-}
-
-func InitConfig() {
-	if utils.FileExists(utils.GetServerPath() + "server.yml") {
-		bytes, err := ioutil.ReadFile(utils.GetServerPath() + "server.yml")
-		if err != nil {
-			utils.HandleError(err)
-		} else {
-			yml := new(interface{})
-			yaml.Unmarshal(bytes, &yml)
-			//TODO: utils/Config.go
-		}
-	}
 }
