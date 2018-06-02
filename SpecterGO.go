@@ -50,7 +50,4 @@ func Load() {
 	SetServer(s)
 	GetServer().Start()
 	GetLogger().Info("Successfully started the server!")
-	for s.Running() == true {
-		s.Tick()
-	}
 }

@@ -23,11 +23,14 @@ import (
 	"time"
 	"fmt"
 	"math"
+	"errors"
+	"github.com/SpecterTeam/SpecterGO/command"
 )
 
 const (
 	pluginPath = "plugins/"
 	worldsPath = "worlds/"
+	playersPath = "players/"
 	tickDelay = time.Second / 20
 )
 
@@ -40,24 +43,40 @@ var (
 	ticks = make(map[int]float64)
 	lastTick = 0
 	TPS = 20
+	ServerConfig utils.Config
 )
 
 
 func NewServer(path string) Server {
 	s := Server{}
-	utils.NewConfig(utils.GetServerPath() + "server.yml", utils.TypeYaml)
+	ServerConfig = utils.NewConfig(utils.GetServerPath() + "server.yml", utils.TypeYaml, map[string]interface{}{
+		"motd": Name + " Server",
+		"server-port": 19132,
+		"max-players": 100,
+		"gamemode": 0,
+
+	})
 	InitDirectories(path)
-	s.InitTicker()
 	return s
 }
 
 func InitDirectories(path string) {
 	os.Mkdir(path + pluginPath, 0777)
 	os.Mkdir(path + worldsPath, 0777)
+	os.Mkdir(path + playersPath, 0777)
 }
 
 func (s *Server) Start() {
-	s.SetRunning(true)
+	if s.Running() == true {
+		err := errors.New("server is already running")
+		logger.Error(err.Error())
+	} else {
+		s.SetRunning(true)
+		command.InitCommands()
+		cr := command.CommandReader{}
+		cr.ReadConsole()
+		s.InitTicker()
+	}
 }
 
 func (s *Server) Shutdown() {
@@ -84,10 +103,15 @@ func (s *Server) InitTicker() {
 	for i := 1; i <= 20; i++ {
 		ticks[i] = 20.0
 	}
+	s.Tick()
 }
 
 func (s *Server) Tick() {
 	for range time.NewTicker(tickDelay).C {
+		if s.Running() == false {
+			break;
+		}
+
 		t := time.Now().Nanosecond()
 
 		s.DoTitleTick()

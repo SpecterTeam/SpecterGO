@@ -33,7 +33,7 @@ const (
 
 
 type(
-	Content map[string]string
+	Content map[string]interface{}
 
 	Config struct {
 		file       string
@@ -42,7 +42,7 @@ type(
 	}
 )
 
-func NewConfig(file string, configType int) Config  {
+func NewConfig(file string, configType int, defaults map[string]interface{}) Config  {
 	c := Config{}
 	c.SetConfigType(configType)
 	c.SetFile(file)
@@ -56,7 +56,16 @@ func NewConfig(file string, configType int) Config  {
 	} else {
 		os.Create(file)
 	}
+	for key, value := range defaults {
+		c.CheckDefault(key, value)
+	}
 	return c
+}
+
+func (c *Config) CheckDefault(key string, value interface{}) {
+	if !c.Exist(key) {
+		c.Set(key, value)
+	}
 }
 
 func ExtMatchType(ext string, configType int) bool {
@@ -148,4 +157,19 @@ func (c *Config) File() string {
 
 func (c *Config) SetFile(file string) {
 	c.file = file
+}
+
+func (c *Config) Set(key string, value interface{}) {
+	config := c.Config()
+	config[key] = value
+}
+
+func (c *Config) Remove(key string) {
+	config := c.Config()
+	delete(config, key)
+}
+func (c *Config) Exist(key string) bool {
+	config := c.Config()
+	_,exist := config[key]
+	return exist
 }
