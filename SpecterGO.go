@@ -31,19 +31,26 @@ var (
 	server Server
 )
 
-func GetLogger() utils.Logger {
-	return logger
+func GetLogger() *utils.Logger {
+	return &logger
 }
 
 func SetServer(s Server) {
 	server = s
 }
 
-func GetServer() Server {
-	return server
+func GetServer() *Server {
+	return &server
 }
 
-func Start() {
-	s := NewServer()
+func Load() {
+	GetLogger().Info(Name + " version: " + Version)
+	GetLogger().Info("Starting the server...")
+	s := NewServer(utils.GetServerPath())
 	SetServer(s)
+	GetServer().Start()
+	GetLogger().Info("Successfully started the server!")
+	for s.Running() == true {
+		s.Tick()
+	}
 }

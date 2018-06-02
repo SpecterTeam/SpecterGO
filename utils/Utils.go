@@ -20,15 +20,22 @@ package utils
 import (
 	"time"
 	"fmt"
-	"github.com/SpecterTeam/SpecterGO"
 	"os"
 	"path/filepath"
 	"bytes"
 	"encoding/gob"
 )
 
+const (
+	DirectorySeparator = "/"
+)
+
+var (
+	logger Logger
+)
+
 func HandleError(err error){
-	SpecterGO.GetLogger().Error(err.Error())
+	logger.Error(err.Error())
 }
 
 func GetTimeString() string {
@@ -46,7 +53,7 @@ func IntToString(int int) string {
 func GetServerPath() string {
 	ex,_ := os.Executable()
 
-	return filepath.Dir(ex)
+	return filepath.Dir(ex) + DirectorySeparator
 }
 
 func FileExists(file string) bool {

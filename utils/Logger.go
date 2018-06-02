@@ -36,7 +36,7 @@ func NewLogger() Logger {
 	l := Logger{}
 	os.Mkdir(GetServerPath() + "/logs", 0777)
 	l.SetLogFile(GetServerPath() + "/logs/log-" + GetTimeString() + ".txt")
-
+	logger = l
 	return l
 }
 

@@ -86,7 +86,7 @@ func (c *Config) Marshal() ([]byte, error) {
 	case TypeJson:
 		b,_ = json.Marshal(c.Config())
 	default:
-		err := errors.New("Couldn't marshal the Config. Perhaps because the type of the config isn't set.")
+		err := errors.New("couldn't marshal the Config, Perhaps because the type of the config isn't set")
 		return b, err
 	}
 
@@ -106,12 +106,23 @@ func (c *Config) Unmarshal() Content {
 	return r
 }
 
-func (c *Config) Save() {
-	bts,err := c.Marshal()
-	if err != nil {
-		HandleError(err)
+func (c *Config) Save(goroutines bool) {
+	if goroutines == true {
+		go func() {
+			bts,err := c.Marshal()
+			if err != nil {
+				HandleError(err)
+			} else {
+				ioutil.WriteFile(c.File(), bts, 0644)
+			}
+		}()
 	} else {
-		ioutil.WriteFile(c.File(), bts, 0644)
+		bts, err := c.Marshal()
+		if err != nil {
+			HandleError(err)
+		} else {
+			ioutil.WriteFile(c.File(), bts, 0644)
+		}
 	}
 }
 
