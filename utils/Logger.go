@@ -23,8 +23,11 @@ import (
 )
 
 type Logger struct {
-	LogFile string
 }
+
+var (
+	LogFile string
+)
 
 const (
 	Prefix      = "[SpecterGO] "
@@ -35,13 +38,13 @@ const (
 func NewLogger() Logger {
 	l := Logger{}
 	os.Mkdir(GetServerPath() + "/logs", 0777)
-	l.SetLogFile(GetServerPath() + "/logs/log-" + GetTimeString() + ".txt")
+	SetLogFile(GetServerPath() + "logs/log-" + GetTimeString() + ".txt")
 	logger = l
 	return l
 }
 
-func(l* Logger) SetLogFile(path string) {
-	l.LogFile = path
+func SetLogFile(path string) {
+	LogFile = path
 	if !FileExists(path) {
 		f, err := os.Create(path)
 		defer f.Close()
@@ -51,12 +54,9 @@ func(l* Logger) SetLogFile(path string) {
 	}
 }
 
-func (l *Logger) GetLogFile() string {
-	return l.LogFile
-}
-
 func (l *Logger) Log(log string) {
-	f,err := os.Open(l.GetLogFile())
+	f,err := os.Open(LogFile)
+	defer f.Close()
 	if err != nil {
 		HandleError(err)
 	} else {

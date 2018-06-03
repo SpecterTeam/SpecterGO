@@ -59,6 +59,7 @@ func NewConfig(file string, configType int, defaults map[string]interface{}) Con
 	for key, value := range defaults {
 		c.CheckDefault(key, value)
 	}
+	c.Save()
 	return c
 }
 
@@ -115,24 +116,14 @@ func (c *Config) Unmarshal() Content {
 	return r
 }
 
-func (c *Config) Save(goroutines bool) {
-	if goroutines == true {
-		go func() {
-			bts,err := c.Marshal()
-			if err != nil {
-				HandleError(err)
-			} else {
-				ioutil.WriteFile(c.File(), bts, 0644)
-			}
-		}()
+func (c *Config) Save() {
+	bts, err := c.Marshal()
+	if err != nil {
+		HandleError(err)
 	} else {
-		bts, err := c.Marshal()
-		if err != nil {
-			HandleError(err)
-		} else {
-			ioutil.WriteFile(c.File(), bts, 0644)
-		}
+		ioutil.WriteFile(c.File(), bts, 0644)
 	}
+
 }
 
 func (c *Config) ConfigType() int {
@@ -160,16 +151,22 @@ func (c *Config) SetFile(file string) {
 }
 
 func (c *Config) Set(key string, value interface{}) {
-	config := c.Config()
-	config[key] = value
+	if c.config == nil {
+		c.config = make(Content)
+	}
+	c.config[key] = value
+}
+
+func (c *Config) Get(key string) interface{} {
+	return c.config[key]
 }
 
 func (c *Config) Remove(key string) {
-	config := c.Config()
-	delete(config, key)
+	delete(c.config, key)
 }
+
 func (c *Config) Exist(key string) bool {
-	config := c.Config()
+	config := c.Unmarshal()
 	_,exist := config[key]
 	return exist
 }

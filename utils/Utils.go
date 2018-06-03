@@ -50,6 +50,32 @@ func IntToString(int int) string {
 	return fmt.Sprintf("%d", int)
 }
 
+func InterfaceToString(i interface{}) string {
+	return i.(string)
+}
+
+func InterfaceToInt(i interface{}) int {
+	return i.(int)
+}
+
+func ArrayToMap(array []string) map[int]string {
+	m := make(map[int]string)
+	for i,s := range array {
+		m[i] = s
+	}
+
+	return m
+}
+
+func MapToArray(m map[int]string) []string {
+	array := []string{}
+	for i,s := range m {
+		array[i] = s
+	}
+
+	return array
+}
+
 func GetServerPath() string {
 	ex,_ := os.Executable()
 

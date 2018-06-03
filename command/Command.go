@@ -8,7 +8,7 @@ type Command struct {
 	function func([]string)
 }
 
-func NewCommand(name string, aliases []string, description string, permission string, function func([]string)) Command {
+func NewCommand(name string, aliases []string, description string, permission string, function func(args []string)) Command {
 	c := Command{}
 	c.SetName(name)
 	c.SetAliases(aliases)
@@ -16,6 +16,11 @@ func NewCommand(name string, aliases []string, description string, permission st
 	c.SetPermission(permission)
 	c.SetFunction(function)
 	return c
+}
+
+func (c *Command) ExecuteFunction(args []string) {
+	f := c.Function()
+	f(args)
 }
 
 func (c *Command) Function() func([]string) {

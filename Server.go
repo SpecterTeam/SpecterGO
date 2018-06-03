@@ -22,7 +22,6 @@ import (
 	"os"
 	"time"
 	"fmt"
-	"math"
 	"errors"
 	"github.com/SpecterTeam/SpecterGO/command"
 )
@@ -37,27 +36,47 @@ const (
 type Server struct {
 	running bool
 	path string
+	ServerConfig utils.Config
 }
 
 var (
 	ticks = make(map[int]float64)
 	lastTick = 0
 	TPS = 20
-	ServerConfig utils.Config
 )
 
 
 func NewServer(path string) Server {
 	s := Server{}
-	ServerConfig = utils.NewConfig(utils.GetServerPath() + "server.yml", utils.TypeYaml, map[string]interface{}{
-		"motd": Name + " Server",
-		"server-port": 19132,
-		"max-players": 100,
-		"gamemode": 0,
-
+	s.ServerConfig = utils.NewConfig(utils.GetServerPath() + "server.yml", utils.TypeYaml, map[string]interface{}{
+		"motd"        : Name + " Server",
+		"server-port" : 19132,
+		"max-players" : 100,
+		"gamemode"    : 0,
 	})
 	InitDirectories(path)
 	return s
+}
+
+func (s *Server) Motd() string {
+	 return utils.InterfaceToString(s.ServerConfig.Get("motd"))
+}
+
+func (s *Server) SetMotd(motd interface{}) {
+	s.ServerConfig.Set("motd", motd)
+	s.ServerConfig.Save()
+}
+
+func (s *Server) Port() int {
+	return utils.InterfaceToInt(s.ServerConfig.Get("server-port"))
+}
+
+func (s *Server) MaxPlayers() int {
+	return utils.InterfaceToInt(s.ServerConfig.Get("max-players"))
+}
+
+func (s *Server) Gamemode() Gamemode {
+	return Gamemode(utils.InterfaceToInt(s.ServerConfig.Get("gamemode")))
 }
 
 func InitDirectories(path string) {
@@ -72,9 +91,10 @@ func (s *Server) Start() {
 		logger.Error(err.Error())
 	} else {
 		s.SetRunning(true)
-		command.InitCommands()
-		cr := command.CommandReader{}
+		command.GetCommandMap().InitCommands()
+		cr := command.NewCommandReader()
 		cr.ReadConsole()
+		GetLogger().Info("Server started successfully!")
 		s.InitTicker()
 	}
 }
@@ -116,12 +136,13 @@ func (s *Server) Tick() {
 
 		s.DoTitleTick()
 
+		//Needs to be fixed, perhaps it's just because there is no process which confuse the time.
 		if lastTick == 20 {
 			var all float64
 			for _, tick := range ticks {
 				all += tick
 			}
-			TPS = int(math.Round(all / 20))
+			TPS = int(all / 20)
 			lastTick = 0
 		}
 		lastTick++
@@ -130,5 +151,5 @@ func (s *Server) Tick() {
 }
 
 func (s *Server) DoTitleTick() {
-	fmt.Print("\x1b]0;" + "TPS: " + utils.IntToString(TPS) + "%\x07")
+	fmt.Print("\x1b]0;" + "TPS: " + utils.IntToString(TPS) + "\x07")
 }

@@ -49,5 +49,4 @@ func Load() {
 	s := NewServer(utils.GetServerPath())
 	SetServer(s)
 	GetServer().Start()
-	GetLogger().Info("Successfully started the server!")
 }
