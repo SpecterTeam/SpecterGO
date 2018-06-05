@@ -17,7 +17,14 @@
 
 package main
 
-import "github.com/SpecterTeam/SpecterGO"
+import (
+	"github.com/SpecterTeam/SpecterGO"
+	"github.com/SpecterTeam/SpecterGO/utils"
+)
+
+func Init() {
+	utils.NewLogger()
+}
 
 func main() {
 	SpecterGO.Load()

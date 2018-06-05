@@ -32,6 +32,10 @@ var (
 const (
 	Prefix      = "[SpecterGO] "
 	ErrorPrefix = "[Error] "
+	DebugPrefix = "[Debug] "
+	WarnPrefix  = "[Warn] "
+	FatalPrefix = "[Fatal] "
+
 	NewLine     = "\n"
 )
 
@@ -54,7 +58,7 @@ func SetLogFile(path string) {
 	}
 }
 
-func (l *Logger) Log(log string) {
+func (l *Logger) Log(log ...interface{}) {
 	f,err := os.Open(LogFile)
 	defer f.Close()
 	if err != nil {
@@ -64,14 +68,32 @@ func (l *Logger) Log(log string) {
 	}
 }
 
-func (l *Logger) Info(log string) {
+func (l *Logger) Info(log ...interface{}) {
 	time := "[" + GetTimeString() + "] "
 	fmt.Println(Prefix + time + log)
-	l.Log(Prefix + time + log)
+	l.Log(Prefix + time + fmt.Sprint(log))
 }
 
-func (l *Logger) Error(log string) {
+func (l *Logger) Error(log ...interface{}) {
 	time := "[" + GetTimeString() + "] "
 	fmt.Println(Prefix + time + ErrorPrefix + log)
-	l.Log(Prefix + ErrorPrefix + time + log)
+	l.Log(Prefix + ErrorPrefix + time + fmt.Sprint(log))
+}
+
+func (l *Logger) Warn(log ...interface{}) {
+	time := "[" + GetTimeString() + "] "
+	fmt.Println(Prefix + time + ErrorPrefix + log)
+	l.Log(Prefix + WarnPrefix + time + fmt.Sprint(log))
+}
+
+func (l *Logger) Fatal(log ...interface{}) {
+	time := "[" + GetTimeString() + "] "
+	fmt.Println(Prefix + time + ErrorPrefix + log)
+	l.Log(Prefix + FatalPrefix + time + fmt.Sprint(log))
+}
+
+func (l *Logger) Debug(log ...interface{}) {
+	time := "[" + GetTimeString() + "] "
+	fmt.Println(Prefix + time + ErrorPrefix + log)
+	l.Log(Prefix + DebugPrefix + time + fmt.Sprint(log))
 }
