@@ -1,4 +1,4 @@
-# SpecterGO [W.I.P]
+# SpecterGO [![Build Status](https://travis-ci.org/SpecterTeam/SpecterGO.svg?branch=master)](https://travis-ci.org/SpecterTeam/SpecterGO)
 a Minecraft: Bedrock Edition multiplayer software writen in GoLang.
 
 ### Developer
