@@ -22,7 +22,7 @@ import (
 	"github.com/SpecterTeam/SpecterGO/utils"
 )
 
-func Init() {
+func init() {
 	utils.NewLogger()
 }
 

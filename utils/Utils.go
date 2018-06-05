@@ -68,7 +68,7 @@ func ArrayToMap(array []string) map[int]string {
 }
 
 func MapToArray(m map[int]string) []string {
-	array := []string{}
+	array := make([]string, 0)
 	for i,s := range m {
 		array[i] = s
 	}

@@ -129,7 +129,7 @@ func (s *Server) InitTicker() {
 func (s *Server) Tick() {
 	for range time.NewTicker(tickDelay).C {
 		if s.Running() == false {
-			break;
+			break
 		}
 
 		t := time.Now().Nanosecond()
