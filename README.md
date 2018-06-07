@@ -1,14 +1,14 @@
 # SpecterGO [![Build Status](https://travis-ci.com/SpecterTeam/SpecterGO.svg?branch=master)](https://travis-ci.com/SpecterTeam/SpecterGO)
-a Minecraft: Bedrock Edition multiplayer software writen in GoLang.
+A Minecraft: Bedrock Edition multiplayer software writen in GoLang.
 
 ### Developer
 - [@OGFris](https://twitter.com/OGFris)
 
 ### Contributing
- SpecterGO is currently under developement and every contribution is accepted 
+ SpecterGO is currently under heavy developement and every contribution is accepted 
  as long as it's clear, clean and is original.
 ### Installation
- just run in your terminal ./compile.sh (make you sure it has perm if not do "chmod +x compile.sh") then go to the folder main and start the program ./main.
+ Just run in your terminal ./compile.sh (make you sure it has perm if not do "chmod +x compile.sh") then go to the folder main and start the program ./main.
  ### License
  SpecterGO is under the [GNU General Public License v3.0](https://github.com/SpecterTeam/SpecterGO/blob/master/LICENSE).
  
