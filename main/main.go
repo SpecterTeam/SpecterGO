@@ -22,6 +22,7 @@ import (
 	"github.com/SpecterTeam/SpecterGO/utils"
 )
 
+
 func init() {
 	utils.NewLogger()
 }

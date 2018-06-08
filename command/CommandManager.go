@@ -60,10 +60,6 @@ func (c *CommandMap) Command(name string) *Command {
 	return &cmd
 }
 
-func (c *CommandMap) InitCommands() {
-	c.AddCommand(HelpCommand()) //register help command.
-}
-
 func GetCommandMap() *CommandMap {
 	return &commandMap
 }

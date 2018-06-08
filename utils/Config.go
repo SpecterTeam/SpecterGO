@@ -18,7 +18,7 @@
 package utils
 
 import (
-	"path/filepath"
+	//"path/filepath"
 	"io/ioutil"
 	"gopkg.in/yaml.v2"
 	"encoding/json"
@@ -47,12 +47,14 @@ func NewConfig(file string, configType int, defaults map[string]interface{}) Con
 	c.SetConfigType(configType)
 	c.SetFile(file)
 	if FileExists(file) {
+		c.SetConfig(c.Unmarshal())
+		/*
 		if ext := filepath.Ext(file); ExtMatchType(ext, configType) {
 			c.SetConfig(c.Unmarshal())
 		} else {
 			err := errors.New("Ext of " + file + " doesn't match the configType!")
 			HandleError(err)
-		}
+		}*/
 	} else {
 		os.Create(file)
 	}

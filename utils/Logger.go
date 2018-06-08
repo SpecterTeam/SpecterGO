@@ -59,41 +59,42 @@ func SetLogFile(path string) {
 }
 
 func (l *Logger) Log(log ...interface{}) {
+	/* Will work on a fix for it.
 	f,err := os.Open(LogFile)
 	defer f.Close()
 	if err != nil {
 		HandleError(err)
 	} else {
 		f.WriteString(fmt.Sprint(log) + NewLine)
-	}
+	}*/
 }
 
 func (l *Logger) Info(log ...interface{}) {
 	time := "[" + GetTimeString() + "] "
-	fmt.Println(Prefix + time + fmt.Sprint(log))
+	fmt.Println(Prefix, time, fmt.Sprint(log))
 	l.Log(Prefix + time + fmt.Sprint(log))
 }
 
 func (l *Logger) Error(log ...interface{}) {
 	time := "[" + GetTimeString() + "] "
-	fmt.Println(Prefix + time + ErrorPrefix + fmt.Sprint(log))
+	fmt.Println(Prefix, time, ErrorPrefix, fmt.Sprint(log))
 	l.Log(Prefix + ErrorPrefix + time + fmt.Sprint(log))
 }
 
 func (l *Logger) Warn(log ...interface{}) {
 	time := "[" + GetTimeString() + "] "
-	fmt.Println(Prefix + time + ErrorPrefix + fmt.Sprint(log))
+	fmt.Println(Prefix, time, ErrorPrefix, fmt.Sprint(log))
 	l.Log(Prefix + WarnPrefix + time + fmt.Sprint(log))
 }
 
 func (l *Logger) Fatal(log ...interface{}) {
 	time := "[" + GetTimeString() + "] "
-	fmt.Println(Prefix + time + ErrorPrefix + fmt.Sprint(log))
+	fmt.Println(Prefix, time, ErrorPrefix, fmt.Sprint(log))
 	l.Log(Prefix + FatalPrefix + time + fmt.Sprint(log))
 }
 
 func (l *Logger) Debug(log ...interface{}) {
 	time := "[" + GetTimeString() + "] "
-	fmt.Println(Prefix + time + ErrorPrefix + fmt.Sprint(log))
+	fmt.Println(Prefix, time, ErrorPrefix, fmt.Sprint(log))
 	l.Log(Prefix + DebugPrefix + time + fmt.Sprint(log))
 }

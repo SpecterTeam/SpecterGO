@@ -37,6 +37,15 @@ type Server struct {
 	running bool
 	path string
 	ServerConfig utils.Config
+	raknet RakNetInterface
+}
+
+func (s *Server) Raknet() *RakNetInterface {
+	return &s.raknet
+}
+
+func (s *Server) SetRaknet(raknet RakNetInterface) {
+	s.raknet = raknet
 }
 
 var (
@@ -91,15 +100,17 @@ func (s *Server) Start() {
 		logger.Error(err.Error())
 	} else {
 		s.SetRunning(true)
-		command.GetCommandMap().InitCommands()
 		cr := command.NewCommandReader()
 		cr.ReadConsole()
+		InitCommands()
+		s.SetRaknet(NewRakNetInterface())
 		GetLogger().Info("Server started successfully!")
 		s.InitTicker()
 	}
 }
 
 func (s *Server) Shutdown() {
+	s.Raknet().Shutdown()
 	s.SetRunning(false)
 }
 
@@ -142,7 +153,7 @@ func (s *Server) Tick() {
 			for _, tick := range ticks {
 				all += tick
 			}
-			TPS = int(all / 20)
+			//TPS = int(all / 20)
 			lastTick = 0
 		}
 		lastTick++
