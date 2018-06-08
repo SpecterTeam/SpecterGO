@@ -1,18 +1,12 @@
-# SpecterGO [![Build Status](https://travis-ci.com/SpecterTeam/SpecterGO.svg?branch=master)](https://travis-ci.com/SpecterTeam/SpecterGO)
-A Minecraft: Bedrock Edition multiplayer software writen in GoLang.
+# go-raknet
 
-### Developer
-- [@OGFris](https://twitter.com/OGFris)
+go-raknet is Raknet library for [SpecterGO](https://github.com/SpecterTeam/SpecterGO) written in Go.
 
-### Contributing
- SpecterGO is currently under heavy developement and every contribution is accepted 
- as long as it's clear, clean and is original.
-### Installation
- Just run in your terminal ./compile.sh (make you sure it has perm if not do "chmod +x compile.sh") then go to the folder main and start the program ./main.
- ### License
- SpecterGO is under the [GNU General Public License v3.0](https://github.com/SpecterTeam/SpecterGO/blob/master/LICENSE).
- 
-            SpecterGO  Copyright (C) 2018  SpecterTeam
+this version of go-raknet is a remake of the original go-raknet by beito123.
+
+## License
+
+    SpecterGO  Copyright (C) 2018  SpecterTeam
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,4 +20,9 @@ A Minecraft: Bedrock Edition multiplayer software writen in GoLang.
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*SpecterGO is not affiliated with Mojang AB.*
+
+
+
+## Based on
+
+- [Raknet](https://github.com/facebookarchive/RakNet) (by [Oculus VR](https://github.com/OculusVR/) License: [2-clause BSD License](https://opensource.org/licenses/BSD-2-Clause)) : The original engine written in C++
