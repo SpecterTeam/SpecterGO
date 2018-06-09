@@ -6,6 +6,4 @@ go:
 script:
  - go get -d ./...
  - go test -v ./...
- - go build
- - ls
- - ./SpecterGO
+ - go build -race -ldflags "-extldflags '-static'"
