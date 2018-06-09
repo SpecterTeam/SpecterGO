@@ -37,11 +37,11 @@ func NewRakNetInterface() RakNetInterface {
 
 	id := identifier.Minecraft{
 		Connection:        raknet.ConnectionGoRaknet,
-		ServerName:        "SpecterGO-Server",
+		ServerName:        GetServer().Motd(),
 		ServerProtocol:    raknet.NetworkProtocol,
 		VersionTag:        "1.0.0",
-		OnlinePlayerCount: 0,
-		MaxPlayerCount:    10,
+		OnlinePlayersCount: 0,
+		MaxPlayersCount:    GetServer().MaxPlayers(),
 		GUID:              binary.ReadLong(uid.Bytes()[0:8]),
 		WorldName:         "world",
 		Gamemode:          "0",
@@ -57,6 +57,10 @@ func NewRakNetInterface() RakNetInterface {
 	}
 	ser.Start("0.0.0.0", GetServer().Port())
 	return RakNetInterface{players: make(Players), server: ser}
+}
+
+func (r *RakNetInterface) Minecraft() *identifier.Minecraft {
+	return &r.Server().Identifier
 }
 
 func (r *RakNetInterface) Shutdown() {

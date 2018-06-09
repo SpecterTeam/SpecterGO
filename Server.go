@@ -62,18 +62,30 @@ func NewServer(path string) Server {
 		"server-port" : 19132,
 		"max-players" : 100,
 		"gamemode"    : 0,
+		"world-name"  : "world",
 	})
 	InitDirectories(path)
 	return s
+}
+
+func (s *Server) WorldName() string {
+	return utils.InterfaceToString(s.ServerConfig.Get("world-name"))
+}
+
+func (s *Server) SetWorldName(name string) {
+	s.ServerConfig.Set("world-name", name)
+	s.ServerConfig.Save()
+	s.Raknet().Minecraft().SetWorldName(name)
 }
 
 func (s *Server) Motd() string {
 	 return utils.InterfaceToString(s.ServerConfig.Get("motd"))
 }
 
-func (s *Server) SetMotd(motd interface{}) {
+func (s *Server) SetMotd(motd string) {
 	s.ServerConfig.Set("motd", motd)
 	s.ServerConfig.Save()
+	s.Raknet().Minecraft().SetServerName(motd)
 }
 
 func (s *Server) Port() int {
@@ -84,8 +96,24 @@ func (s *Server) MaxPlayers() int {
 	return utils.InterfaceToInt(s.ServerConfig.Get("max-players"))
 }
 
+func (s *Server) SetMaxPlayers(max int) {
+	s.ServerConfig.Set("max-players", max)
+	s.ServerConfig.Save()
+	s.Raknet().Minecraft().SetMaxPlayersCount(max)
+}
+
+func (s *Server) SetOnlinePlayersCount(count int) {
+	s.Raknet().Minecraft().SetOnlinePlayersCount(count)
+}
+
 func (s *Server) Gamemode() Gamemode {
 	return Gamemode(utils.InterfaceToInt(s.ServerConfig.Get("gamemode")))
+}
+
+func (s *Server) SetGamemode(gamemode Gamemode) {
+	s.ServerConfig.Set("gamemode", gamemode)
+	s.ServerConfig.Save()
+	s.Raknet().Minecraft().SetGameMode(utils.IntToString(int(gamemode)))
 }
 
 func InitDirectories(path string) {
