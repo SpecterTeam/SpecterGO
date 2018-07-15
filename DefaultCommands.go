@@ -54,6 +54,7 @@ func makeHelpList() map[int]map[string]command.Command {
 	for name,c := range command.GetCommandMap().Commands() {
 		if count == 5 {
 			page++
+			count = 0
 		}
 		list[page][name] = c
 		count++
